@@ -1,61 +1,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset=utf-8 />
-<title>Stan Feldman Travel Map</title>
-<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-<style>
-  body { margin:0; padding:0; }
-  #map { position:absolute; top:0; bottom:0; width:100%; }
-</style>
-<script src='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.js'></script>
-<link href='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.css' rel='stylesheet' />
-<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-<script>
-	$(function() {
-		L.mapbox.accessToken = 'pk.eyJ1Ijoic3RhbmlzbGF2ZmVsZG1hbiIsImEiOiJjaW1qeDNzcWIwMHZpdmlrdWtzN25rM2V4In0.fHHjC9KgMpEuyayafUAVwA';
-		var map = L.mapbox.map('map', 'stanislavfeldman.pj2c9k81').setView([10, 20], 3);
-		var layer = L.mapbox.styleLayer('mapbox://styles/stanislavfeldman/cimk248ry00d2cem3gpgxr34h');
-		layer.addTo(map);
-		var countries = ["Russia", "United States", "Indonesia", "Philippines", "Cambodia", "Thailand", "Netherlands", "Spain", "China", "Vietnam", "France", "Bahamas", "Ukraine", "Cyprus", "Turkey", "Singapore", "Belarus", "Egypt", "Bulgaria", "Morocco"];
-		layer.on('ready', function() {
-			$(".leaflet-control-attribution").html("<div class='mapbox-improve-map'>Visited countries (" + countries.length + "):<br>" + countries + "</div>");
-			$(".mapbox-logo").remove();
-		});
-
-		var geocoder = L.mapbox.geocoder('mapbox.places');
-		for (var i = 0; i < countries.length; ++i) {
-			addCountryMarker(countries[i]);
-		}
-
-		function addCountryMarker(name) {
-			geocoder.query(name, function (err, data) {
-			    if(data.latlng) {
-			    	addMarker([data.latlng[1], data.latlng[0]], name);
-			    }
-			});
-		}
-
-		function addMarker(location, title) {
-			L.mapbox.featureLayer({
-			    type: 'Feature',
-			    geometry: {
-			        type: 'Point',
-			        coordinates: location
-			    },
-			    properties: {
-			        title: title,
-			        description: "",
-			        'marker-size': 'large',
-			        'marker-color': '#7ec9b1',
-			        'marker-symbol': 'circle'
-			    }
-			}).addTo(map);
-		}
-	});
-</script>
+	<meta charset=utf-8 />
+	<title>My Travel Map</title>
+	<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+	<style>
+	  body { margin:0; padding:0; }
+	  #map { position:absolute; top:0; bottom:0; width:100%; }
+	  #map .country-icon {
+	  	border-radius: 20px;
+		-moz-border-radius: 20px;
+		-webkit-border-radius: 20px;
+		background: rgba(62, 67, 230, 0.9);
+		border: 1px solid rgba(33, 21, 164, 0.9);
+	  }
+	  #map .place-icon {
+	  	border-radius: 16px;
+		-moz-border-radius: 16px;
+		-webkit-border-radius: 16px;
+		background: rgba(110, 137, 223, 0.9);
+		border: 1px solid rgba(100, 120, 210, 0.9);
+	  }
+	</style>
+	<script src='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.js'></script>
+	<link href='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.css' rel='stylesheet' />
+	<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+	<script src="http://underscorejs.org/underscore-min.js"></script>
+	<script src="./app.js"></script>
 </head>
 <body>
-<div id='map'></div>
+	<div id='map'></div>
 </body>
 </html>
