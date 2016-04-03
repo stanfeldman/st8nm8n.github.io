@@ -27,6 +27,7 @@
 		for (var i = 0; i < countries.length; ++i) {
 			addCountryMarker(countries[i]);
 		}
+
 		function addCountryMarker(name) {
 			geocoder.query(name, function (err, data) {
 			    if(data.latlng) {
@@ -34,22 +35,17 @@
 			    }
 			});
 		}
+
 		function addMarker(location, title) {
 			L.mapbox.featureLayer({
-			    // this feature is in the GeoJSON format: see geojson.org
-			    // for the full specification
 			    type: 'Feature',
 			    geometry: {
 			        type: 'Point',
-			        // coordinates here are in longitude, latitude order because
-			        // x, y is the standard for GeoJSON and many formats
 			        coordinates: location
 			    },
 			    properties: {
 			        title: title,
-			        description: '1718 14th St NW, Washington, DC',
-			        // one can customize markers by adding simplestyle properties
-			        // https://www.mapbox.com/guides/an-open-platform/#simplestyle
+			        description: "",
 			        'marker-size': 'large',
 			        'marker-color': '#7ec9b1',
 			        'marker-symbol': 'circle'
