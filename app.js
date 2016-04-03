@@ -3,7 +3,7 @@ $(function() {
 	var map = L.mapbox.map('map', 'stanislavfeldman.pj2c9k81').setView([10, 20], 3);
 	var layer = L.mapbox.styleLayer('mapbox://styles/stanislavfeldman/cimk248ry00d2cem3gpgxr34h');
 	layer.addTo(map);
-	var countries = ["Russia", "United States", "Indonesia", "Philippines", "Cambodia", "Thailand", "Netherlands", "Spain", "China", "Vietnam", "France", "Bahamas", "Ukraine", "Cyprus", "Turkey", "Singapore", "Belarus", "Egypt", "Bulgaria", "Morocco"];
+	var countries = ["Malaysia", "Russia", "United States", "Indonesia", "Philippines", "Cambodia", "Thailand", "Netherlands", "Spain", "China", "Vietnam", "France", "Bahamas", "Ukraine", "Cyprus", "Turkey", "Singapore", "Belarus", "Egypt", "Bulgaria", "Morocco"];
 	layer.on('ready', function() {
 		$(".leaflet-control-attribution").html("<div class='mapbox-improve-map'>Visited countries (" + countries.length + "):<br>" + countries + "</div>");
 		$(".mapbox-logo").remove();
