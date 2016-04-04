@@ -25,22 +25,11 @@ $(function() {
 	                },
 	                "properties": {
 	                    "title": name,
+	                    "description": name,
 	                    "marker-symbol": "monument"
 	                }
 	            });
 			});
-			// geocoder.query(name, function (err, data) {
-			//     if(data.latlng) {
-			//     	console.log(data.latlng);
-			//     	// addMarker(data.latlng[0], data.latlng[1], name, "", {
-			//      //        "iconUrl": "https://ss3.4sqi.net/img/categories_v2/travel/travelagency_44.png",
-			//      //        "iconSize": [40, 40], // size of the icon
-			//      //        "iconAnchor": [20, 20], // point of the icon which will correspond to marker's location
-			//      //        "popupAnchor": [0, -12], 
-			//      //        "className": "country-icon"
-			//      //    }, 1000);
-			//     }
-			// });
 		}
 
 		function showPlaces(offset, callback) {
@@ -70,17 +59,10 @@ $(function() {
 		                    "coordinates": [place.location.lng, place.location.lat]
 		                },
 		                "properties": {
-		                    "title": place.name,
+		                    "description": '<h4>' + place.name + '</h4>' + description,
 		                    "marker-symbol": "monument"
 		                }
 		            });
-					// addMarker(place.location.lat, place.location.lng, place.name, description, {
-			  //           "iconUrl": place.icon,
-			  //           "iconSize": [32, 32], // size of the icon
-			  //           "iconAnchor": [16, 16], // point of the icon which will correspond to marker's location
-			  //           "popupAnchor": [0, -10], 
-			  //           "className": "place-icon"
-			  //       }, 0);
 				}
 				if(places.length > 0)
 					showPlaces(offset + limit, callback);
@@ -107,12 +89,36 @@ $(function() {
 			            "text-field": "{title}",
 			            "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
 			            "text-offset": [0, 0.6],
-			            "text-anchor": "top"
+			            "text-anchor": "top",
+			            "icon-allow-overlap": true
 			        }
 			    });
 			    setTimeout(function() {
 					$(".mapboxgl-ctrl-attrib").html("<div class='mapbox-improve-map'>Visited countries (" + countries.length + "):<br>" + countries + "</div>");
 				}, 1000);
+
+				var popup = new mapboxgl.Popup({
+				    closeButton: false,
+				    closeOnClick: false
+				});
+				map.on('mousemove', function(e) {
+				    var features = map.queryRenderedFeatures(e.point, { layers: ['markers'] });
+				    // Change the cursor style as a UI indicator.
+				    map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
+
+				    if (!features.length) {
+				        popup.remove();
+				        return;
+				    }
+
+				    var feature = features[0];
+
+				    // Populate the popup and set its coordinates
+				    // based on the feature found.
+				    popup.setLngLat(feature.geometry.coordinates)
+				        .setHTML(feature.properties.description)
+				        .addTo(map);
+				});
 				console.log("done!");
 			});
 		});

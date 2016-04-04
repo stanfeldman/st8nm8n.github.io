@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset=utf-8 />
+	<title>My Travel Map</title>
+	<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+	<style>
+	  body { margin:0; padding:0; }
+	  #map { position:absolute; top:0; bottom:0; width:100%; }
+	  #map .country-icon {
+	  	border-radius: 20px;
+		-moz-border-radius: 20px;
+		-webkit-border-radius: 20px;
+		background: rgba(62, 67, 230, 0.9);
+		border: 1px solid rgba(33, 21, 164, 0.9);
+	  }
+	  #map .place-icon {
+	  	border-radius: 16px;
+		-moz-border-radius: 16px;
+		-webkit-border-radius: 16px;
+		background: rgba(110, 137, 223, 0.9);
+		border: 1px solid rgba(100, 120, 210, 0.9);
+	  }
+	</style>
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.16.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.16.0/mapbox-gl.css' rel='stylesheet' />
+	<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+	<script src="http://underscorejs.org/underscore-min.js"></script>
+	<script src="./testgl.js"></script>
+</head>
+<body>
+	<div id='map'></div>
+</body>
+</html>
