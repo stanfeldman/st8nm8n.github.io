@@ -21,9 +21,23 @@
 		background: rgba(110, 137, 223, 0.9);
 		border: 1px solid rgba(100, 120, 210, 0.9);
 	  }
+	  #map .mapboxgl-ctrl-bottom-left {
+	  	width: 50px;
+	  	height: 50px;
+	  	margin: 10px;
+	  }
+	  #map .mapboxgl-ctrl-bottom-left img {
+	  	width: 100%;
+	  	border-radius: 50%;
+		-moz-border-radius: 50%;
+		-webkit-border-radius: 50%;
+	  }
+	  #map .mapboxgl-ctrl-bottom-right {
+	  	margin: 15px 10px;
+	  }
 	</style>
-	<script src='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.js'></script>
-	<link href='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.css' rel='stylesheet' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.16.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.16.0/mapbox-gl.css' rel='stylesheet' />
 	<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
 	<script src="http://underscorejs.org/underscore-min.js"></script>
 	<script src="./app.js"></script>
