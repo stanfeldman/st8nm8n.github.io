@@ -1,0 +1,30 @@
+body { margin:0; padding:0; }
+#map { position:absolute; top:0; bottom:0; width:100%; }
+#map .country-icon {
+	border-radius: 20px;
+	-moz-border-radius: 20px;
+	-webkit-border-radius: 20px;
+	background: rgba(62, 67, 230, 0.9);
+	border: 1px solid rgba(33, 21, 164, 0.9);
+}
+#map .place-icon {
+	border-radius: 16px;
+	-moz-border-radius: 16px;
+	-webkit-border-radius: 16px;
+	background: rgba(110, 137, 223, 0.9);
+	border: 1px solid rgba(100, 120, 210, 0.9);
+}
+#map .mapboxgl-ctrl-bottom-left {
+	width: 50px;
+	height: 50px;
+	margin: 10px;
+}
+#map .mapboxgl-ctrl-bottom-left img {
+	width: 100%;
+	border-radius: 50%;
+	-moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+}
+#map .mapboxgl-ctrl-bottom-right {
+	margin: 15px 10px 15px 70px;
+}
