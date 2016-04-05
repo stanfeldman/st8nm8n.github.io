@@ -7,6 +7,7 @@ $(function() {
 	    zoom: 2,
 	    minZoom: 2
 	});
+
 	var countries = ["Malaysia", "Russia", "United States", "Indonesia", "Philippines", "Cambodia", "Thailand", "Netherlands", "Spain", "China", "Vietnam", "France", "Bahamas", "Ukraine", "Cyprus", "Turkey", "Singapore", "Belarus", "Egypt", "Bulgaria", "Morocco"];
 	countries.sort();
 	map.on('style.load', function () {
@@ -87,13 +88,42 @@ $(function() {
 			        .setHTML(feature.properties.description)
 			        .addTo(map);
 			});
-			
-			setTimeout(function() {
-				var countriesStr = _.reduce(countries, function(memo, country){ return memo + ", " + country; });
-				$(".mapboxgl-ctrl-attrib").html("<div class='mapbox-improve-map'>Visited countries (" + countries.length + "):<br>" + countriesStr + "</div>");
-			}, 1000);
+
+		    var geocoder = new mapboxgl.Geocoder();
+			map.addControl(geocoder);
+
+			addSearchPointLayer();
+			geocoder.on('result', function(ev) {
+		        map.getSource('single-point').setData(ev.result.geometry);
+		        map.flyTo({center: ev.result.center, zoom: 9});
+		    });
+		    geocoder.on('clear', function(ev) {
+		        map.removeSource('single-point');
+		        addSearchPointLayer();
+		        map.flyTo({center: [10, 20], zoom: 2});
+		    });
+
+		    function addSearchPointLayer() {
+		    	map.addSource('single-point', {
+			        "type": "geojson",
+			        "data": {
+			            "type": "FeatureCollection",
+			            "features": []
+			        }
+			    });
+				map.addLayer({
+			        "id": "point",
+			        "source": "single-point",
+			        "type": "circle",
+			        "paint": {
+			            "circle-radius": 10,
+			            "circle-color": "#007cbf"
+			        }
+			    });
+		    }
 		});
 	});
 
-	$(".mapboxgl-ctrl-bottom-left").html("<img src='https://en.gravatar.com/userimage/13269986/831e5ea82ccc94620d98ca276e95f494.png?size=200'>");
+	var countriesStr = _.reduce(countries, function(memo, country){ return memo + ", " + country; });
+	$("#countries").html("Visited countries (" + countries.length + "):<br>" + countriesStr);
 });
