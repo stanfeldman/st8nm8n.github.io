@@ -22,3 +22,21 @@ body { margin:0; padding:0; }
 	background: #c5e5fb;
 	padding: 15px 10px 10px 70px;
 }
+.mapboxgl-popup-content .icon {
+	float: left;
+}
+.mapboxgl-popup-content a {
+    text-decoration: none;
+    color: black;
+}
+.mapboxgl-popup-content h4 {
+	padding-left: 40px;
+}
+.mapboxgl-popup-content div {
+	margin-top: -10px;
+	margin-bottom: -10px;
+}
+.mapboxgl-popup-content .photo {
+	margin-top: 20px;
+	margin-bottom: -10px;
+}

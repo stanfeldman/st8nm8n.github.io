@@ -20,11 +20,20 @@ $(function() {
 					var categories = item.venue.categories;
 					var icon = null;
 					if(categories.length > 0)
-						icon = categories[0].icon.prefix + "44" + categories[0].icon.suffix
+						icon = categories[0].icon.prefix + "bg_32" + categories[0].icon.suffix
+					var photo = null;
+					var photoOriginal = null;
+					if(item.photos.count > 0) {
+						photo = item.photos.items[0].prefix + "cap300" + item.photos.items[0].suffix;
+						photoOriginal = item.photos.items[0].prefix + "original" + item.photos.items[0].suffix;
+					}
 					return { 
 						name: item.venue.name, 
 						location: item.venue.location,
-						icon: icon
+						icon: icon,
+						photo: photo,
+						photoOriginal: photoOriginal,
+						url: "https://foursquare.com/v/" + item.venue.id
 					}; 
 				});
 				for (var i = 0; i < places.length; ++i) {
@@ -33,6 +42,11 @@ $(function() {
 					var description = "";
 					if(address)
 						description = address[address.length-1];
+					var popup = '<a href="' + place.url +'" target="_blank"><img class="icon" src="' + place.icon + '"></a><a href="' + place.url +'" target="_blank"><h4>' + place.name + '</h4></a><div>' + description + '</div>';
+					if(place.photo) {
+						popup += '</div><a href="' + place.photoOriginal +'" target="_blank"><img class="photo" src="' + place.photo + '"></a>';
+						console.log(popup);
+					}
 					markers.push({
 		                "type": "Feature",
 		                "geometry": {
@@ -40,7 +54,7 @@ $(function() {
 		                    "coordinates": [place.location.lng, place.location.lat]
 		                },
 		                "properties": {
-		                    "description": '<h4>' + place.name + '</h4>' + description,
+		                    "description": popup,
 		                    "marker-symbol": "monument"
 		                }
 		            });
