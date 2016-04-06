@@ -16,7 +16,7 @@ $(function() {
 		function showPlaces(offset, callback) {
 			var limit = 250;
 			$.get("https://api.foursquare.com/v2/users/self/checkins?offset=" + offset + "&limit=" + limit + "&oauth_token=EWILCTFULERW3FO52ARKGOMK5MN1L2VTK4F0HDEKCHLJROD0&v=20160403", function( data ) {
-				places = _.map(data.response.checkins.items, function(item){
+				var places = _.map(data.response.checkins.items, function(item){
 					var categories = item.venue.categories;
 					var icon = null;
 					if(categories.length > 0)
@@ -28,6 +28,7 @@ $(function() {
 						photoOriginal = item.photos.items[0].prefix + "original" + item.photos.items[0].suffix;
 					}
 					return { 
+						id: item.venue.id,
 						name: item.venue.name, 
 						location: item.venue.location,
 						icon: icon,
@@ -43,10 +44,8 @@ $(function() {
 					if(address)
 						description = address[address.length-1];
 					var popup = '<a href="' + place.url +'" target="_blank"><img class="icon" src="' + place.icon + '"></a><a href="' + place.url +'" target="_blank"><h4>' + place.name + '</h4></a><div>' + description + '</div>';
-					if(place.photo) {
+					if(place.photo)
 						popup += '</div><a href="' + place.photoOriginal +'" target="_blank"><img class="photo" src="' + place.photo + '"></a>';
-						console.log(popup);
-					}
 					markers.push({
 		                "type": "Feature",
 		                "geometry": {
@@ -54,15 +53,22 @@ $(function() {
 		                    "coordinates": [place.location.lng, place.location.lat]
 		                },
 		                "properties": {
+		                	"id": place.id,
 		                    "description": popup,
-		                    "marker-symbol": "monument"
+		                    "marker-symbol": "monument",
+		                    "photo": place.photo
 		                }
 		            });
 				}
 				if(places.length > 0)
 					showPlaces(offset + limit, callback);
-				else if(callback)
-					callback();
+				else {
+					markers = _.uniq(markers, true, function(m) {
+						return m.properties.photo ? null : m.properties.id
+					});
+					if(callback)
+						callback();
+				}
 			});
 		}
 
@@ -106,38 +112,20 @@ $(function() {
 		    var geocoder = new mapboxgl.Geocoder();
 			map.addControl(geocoder);
 
-			addSearchPointLayer();
 			geocoder.on('result', function(ev) {
-		        map.getSource('single-point').setData(ev.result.geometry);
 		        map.flyTo({center: ev.result.center, zoom: 9});
 		    });
 		    geocoder.on('clear', function(ev) {
-		        map.removeSource('single-point');
-		        addSearchPointLayer();
 		        map.flyTo({center: [10, 20], zoom: 2});
 		    });
-
-		    function addSearchPointLayer() {
-		    	map.addSource('single-point', {
-			        "type": "geojson",
-			        "data": {
-			            "type": "FeatureCollection",
-			            "features": []
-			        }
-			    });
-				map.addLayer({
-			        "id": "point",
-			        "source": "single-point",
-			        "type": "circle",
-			        "paint": {
-			            "circle-radius": 10,
-			            "circle-color": "#007cbf"
-			        }
-			    });
-		    }
 		});
 	});
 
 	var countriesStr = _.reduce(countries, function(memo, country){ return memo + ", " + country; });
-	$("#countries").html("Visited countries (" + countries.length + "):<br>" + countriesStr);
+	var closed = true
+	$("#countries").html("<b>" + countries.length + " countries</b><br>" + countriesStr);
+	$("#countries").click(function() {
+		$("#countries").html(closed ? "<b>" + countries.length + " countries</b><br>" + countriesStr : "<b>" + countries.length + " countries</b>");
+		closed = !closed;
+	});
 });
