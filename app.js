@@ -8,7 +8,7 @@ $(function() {
 	    minZoom: 2
 	});
 
-	var countries = ["Malaysia", "Russia", "United States", "Indonesia", "Philippines", "Cambodia", "Thailand", "Netherlands", "Spain", "China", "Vietnam", "France", "Bahamas", "Ukraine", "Cyprus", "Turkey", "Singapore", "Belarus", "Egypt", "Bulgaria", "Morocco"];
+	var countries = ["Malaysia", "Russia", "United States", "Indonesia", "Philippines", "Cambodia", "Thailand", "Netherlands", "Spain", "China", "Vietnam", "France", "Bahamas", "Ukraine", "Cyprus", "Turkey", "Singapore", "Belarus", "Egypt", "Bulgaria", "Morocco", "Australia"];
 	countries.sort();
 	map.on('style.load', function () {
 		var markers = [];
