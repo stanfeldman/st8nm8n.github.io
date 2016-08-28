@@ -1,14 +1,14 @@
 $(function() {
-	mapboxgl.accessToken = 'pk.eyJ1Ijoic3RhbmlzbGF2ZmVsZG1hbiIsImEiOiJjaW1qeDNzcWIwMHZpdmlrdWtzN25rM2V4In0.fHHjC9KgMpEuyayafUAVwA';
+	mapboxgl.accessToken = "pk.eyJ1Ijoic3RhbmlzbGF2ZmVsZG1hbiIsImEiOiJjaW1qeDNzcWIwMHZpdmlrdWtzN25rM2V4In0.fHHjC9KgMpEuyayafUAVwA";
 	var map = new mapboxgl.Map({
 	    container: 'map',
-	    style: 'mapbox://styles/stanislavfeldman/cimkplo510022zpmcm7f1fkb3',
+	    style: "mapbox://styles/stanislavfeldman/cisdzostl00022wnvtg7rrrxs",
 	    center: [10, 20],
 	    zoom: 2,
 	    minZoom: 2
 	});
 
-	var countries = ["Malaysia", "Russia", "United States", "Indonesia", "Philippines", "Cambodia", "Thailand", "Netherlands", "Spain", "China", "Vietnam", "France", "Bahamas", "Ukraine", "Cyprus", "Turkey", "Singapore", "Belarus", "Egypt", "Bulgaria", "Morocco", "Australia"];
+	var countries = ["Malaysia", "Russia", "United States", "Indonesia", "Philippines", "Cambodia", "Thailand", "Netherlands", "Spain", "China", "Vietnam", "France", "Bahamas", "Ukraine", "Cyprus", "Turkey", "Singapore", "Belarus", "Egypt", "Bulgaria", "Morocco", "Australia", "Myanmar"];
 	countries.sort();
 	map.on('style.load', function () {
 		var markers = [];
