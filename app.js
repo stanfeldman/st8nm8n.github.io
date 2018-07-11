@@ -8,7 +8,32 @@ $(function() {
 	    minZoom: 2
 	});
 
-	var countries = ["Malaysia", "Russia", "United States", "Indonesia", "Philippines", "Cambodia", "Thailand", "Netherlands", "Spain", "China", "Vietnam", "France", "Bahamas", "Ukraine", "Cyprus", "Turkey", "Singapore", "Belarus", "Egypt", "Bulgaria", "Morocco", "Australia", "Myanmar"];
+	var countries = [
+		"Russia",
+		"Malaysia",
+		"USA",
+		"Indonesia",
+		"Philippines",
+		"Cambodia",
+		"Thailand",
+		"Netherlands",
+		"Spain",
+		"China",
+		"Vietnam",
+		"France",
+		"Bahamas",
+		"Ukraine",
+		"Cyprus",
+		"Turkey",
+		"Singapore",
+		"Belarus",
+		"Egypt",
+		"Bulgaria",
+		"Morocco",
+		"Australia",
+		"Myanmar",
+		"India"
+	];
 	countries.sort();
 	map.on('style.load', function () {
 		var markers = [];
@@ -16,27 +41,31 @@ $(function() {
 		function showPlaces(offset, callback) {
 			var limit = 250;
 			$.get("https://api.foursquare.com/v2/users/self/checkins?offset=" + offset + "&limit=" + limit + "&oauth_token=EWILCTFULERW3FO52ARKGOMK5MN1L2VTK4F0HDEKCHLJROD0&v=20160403", function( data ) {
-				var places = _.map(data.response.checkins.items, function(item){
-					var categories = item.venue.categories;
-					var icon = null;
-					if(categories.length > 0)
-						icon = categories[0].icon.prefix + "bg_32" + categories[0].icon.suffix
-					var photo = null;
-					var photoOriginal = null;
-					if(item.photos.count > 0) {
-						photo = item.photos.items[0].prefix + "cap300" + item.photos.items[0].suffix;
-						photoOriginal = item.photos.items[0].prefix + "original" + item.photos.items[0].suffix;
+				var places = _.reduce(data.response.checkins.items, function(results, item) {
+					if (item && item.venue && item.venue.categories) {
+						var categories = item.venue.categories;
+						var icon = null;
+						if(categories.length > 0)
+							icon = categories[0].icon.prefix + "bg_32" + categories[0].icon.suffix
+						var photo = null;
+						var photoOriginal = null;
+						if(item.photos.count > 0) {
+							photo = item.photos.items[0].prefix + "cap300" + item.photos.items[0].suffix;
+							photoOriginal = item.photos.items[0].prefix + "original" + item.photos.items[0].suffix;
+						}
+						var place = { 
+							id: item.venue.id,
+							name: item.venue.name, 
+							location: item.venue.location,
+							icon: icon,
+							photo: photo,
+							photoOriginal: photoOriginal,
+							url: "https://foursquare.com/v/" + item.venue.id
+						};
+						results.push(place);
 					}
-					return { 
-						id: item.venue.id,
-						name: item.venue.name, 
-						location: item.venue.location,
-						icon: icon,
-						photo: photo,
-						photoOriginal: photoOriginal,
-						url: "https://foursquare.com/v/" + item.venue.id
-					}; 
-				});
+					return results;
+				}, []);
 				for (var i = 0; i < places.length; ++i) {
 					var place = places[i];
 					var address = place.location.formattedAddress;
